@@ -120,7 +120,31 @@ var WeatherAPI = {
     console.log('URL ', url);
     $.getJSON(url, function (data) {
       console.log('data w', data);
+      WeatherAPI.processData(data);
     });
+  },
+  processData: function(data) {
+    // display weather data received from api.
+
+    WeatherAPI.setWeatherIcon(data.weather[0].icon);
+    WeatherAPI.setWeatherStatus(data.weather[0].description);
+  },
+  setWeatherIcon: function(icon) {
+    // Weather icon
+    var $weatherIcon = $('#weather-icon'); // jquery object
+    var iconUrlBase = 'http://openweathermap.org/img/w/';
+    // api data
+    var iconSrc = iconUrlBase + icon + '.png';
+    // set icon
+    $weatherIcon.fadeOut('fast', function () {
+        $weatherIcon.attr('src', iconSrc);
+        $weatherIcon.fadeIn('fast');
+    });
+  },
+  setWeatherStatus: function(status) {
+    // set status string
+    var $weatherStatus = $('#weather-status');
+    $weatherStatus.html(status);
   }
 };
 

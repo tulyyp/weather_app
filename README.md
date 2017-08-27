@@ -21,3 +21,10 @@ Get weather data from remote API for the location.
 
 ## CSS
 Bare minimum CSS for the html.
+
+## Remote Server (AWS instance)
+- Security groups (setup)
+- Nginx (Install, setup)
+- NodeJS Server (Install, setup)
+- Socket libraries (Install)
+- REDIS (Install, setup)

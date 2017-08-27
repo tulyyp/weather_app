@@ -97,9 +97,9 @@ var GeoOperationAPI = {
 var WeatherAPI = {
   data: {
     busy: false, // api request status. Is true while waiting for response from API.
-    unit: 'celsius', // celsius / fahrenheit
+    unit: 'metric', // metric: celsius / imperial: fahrenheit
     // full: api.openweathermap.org/data/2.5/weather?q={city name},{country code}
-    apiBase: 'http://api.openweathermap.org/data/2.5/weather?APPID=8db4af47aafe14307ccf8406a0b028cc&units=metric',
+    apiBase: 'http://api.openweathermap.org/data/2.5/weather?APPID=8db4af47aafe14307ccf8406a0b028cc',
   },
   init: function() {
     // Bindings
@@ -130,13 +130,20 @@ var WeatherAPI = {
           alert('Can not detect user location and weather information!');
           return;
         }
+        // append temperature unit
+        url += '&units=' + WeatherAPI.data.unit;
+
         return url;
       },
       processData: function(data) {
         // display weather data received from api.
         localMethods.setWeatherIcon(data.weather[0].icon);
         localMethods.setWeatherStatus(data.weather[0].description);
-
+        localMethods.setTempreture(data.main);
+      },
+      setTempreture: function(values) {
+        $('#temperature .large-temperature span').html(values.temp);
+        $('#temperature .temperature-min-max .temperature-value').html(values.temp_min + '~' + values.temp_max);
       },
       setWeatherIcon: function(icon) {
         // Weather icon
@@ -184,13 +191,19 @@ var WeatherAPI = {
       $(this).prop('checked', !$(this).is(':checked'));
       return false
     }
+    var $temperatureLabel = $('#temperature .temperature-label');
+    console.log('---', $temperatureLabel.length);
     if ($(this).is(':checked')) {
       // celsius
-      Weather.data.unit = 'celsius';
+      WeatherAPI.data.unit = 'metric';
+      $temperatureLabel.html('C');
     }
     else {
-      Weather.data.unit = 'fahrenheit';
+      WeatherAPI.data.unit = 'imperial';
+      $temperatureLabel.html('F');
     }
+    // re-request for information in selected unit
+    WeatherAPI.request();
 
   }
 };

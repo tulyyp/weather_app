@@ -96,55 +96,102 @@ var GeoOperationAPI = {
 /* Weather API */
 var WeatherAPI = {
   data: {
+    busy: false, // api request status. Is true while waiting for response from API.
+    unit: 'celsius', // celsius / fahrenheit
     // full: api.openweathermap.org/data/2.5/weather?q={city name},{country code}
     apiBase: 'http://api.openweathermap.org/data/2.5/weather?APPID=8db4af47aafe14307ccf8406a0b028cc&units=metric',
   },
   init: function() {
-    var url = WeatherAPI.data.apiBase;
-    // use country code and city.
-    if (GeoOperationAPI.data.city) {
-      url += '&q=' +GeoOperationAPI.data.city;
-      // use country code
-      if (GeoOperationAPI.data.countryCode) {
-        url +=  ',' + GeoOperationAPI.data.countryCode;
+    // Bindings
+    var $unitsCheck = $('#units_check').change(WeatherAPI.onUnitsCheckClick);
+    // Get weather data from API
+    WeatherAPI.request();
+  },
+  request: function() {
+    // Retreive data from API
+
+    // local methods
+    var localMethods = {
+      generateUrl: function() {
+        var url = WeatherAPI.data.apiBase;
+        // use country code and city.
+        if (GeoOperationAPI.data.city) {
+          url += '&q=' +GeoOperationAPI.data.city;
+          // use country code
+          if (GeoOperationAPI.data.countryCode) {
+            url +=  ',' + GeoOperationAPI.data.countryCode;
+          }
+        }
+        else if (GeoOperationAPI.data.lat !== null && GeoOperationAPI.data.lon !== null) {
+          // if city name is not found, use lat, lon instead. api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}
+          url +=  '&lat=' + GeoOperationAPI.data.lat + '&lon=' + GeoOperationAPI.data.lon;
+        }
+        else {
+          alert('Can not detect user location and weather information!');
+          return;
+        }
+        return url;
+      },
+      processData: function(data) {
+        // display weather data received from api.
+        localMethods.setWeatherIcon(data.weather[0].icon);
+        localMethods.setWeatherStatus(data.weather[0].description);
+
+      },
+      setWeatherIcon: function(icon) {
+        // Weather icon
+        var $weatherIcon = $('#weather-icon'); // jquery object
+        var iconUrlBase = 'http://openweathermap.org/img/w/';
+        // api data
+        var iconSrc = iconUrlBase + icon + '.png';
+        // set icon
+        $weatherIcon.fadeOut('fast', function () {
+          $weatherIcon.attr('src', iconSrc);
+          $weatherIcon.fadeIn('fast');
+        });
+      },
+      setWeatherStatus: function(status) {
+        // set status string
+        var $weatherStatus = $('#weather-status');
+        $weatherStatus.html(status);
       }
-    }
-    else if (GeoOperationAPI.data.lat !== null && GeoOperationAPI.data.lon !== null) {
-      // if city name is not found, use lat, lon instead. api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}
-      url +=  '&lat=' + GeoOperationAPI.data.lat + '&lon=' + GeoOperationAPI.data.lon;
-    }
-    else {
-      alert('Can not detect user location and weather information!');
+    };
+
+    // set busy flag
+    WeatherAPI.data.busy = true;
+    var url = localMethods.generateUrl();
+    // check if url is valid
+    if (!url || !url.length) {
       return;
     }
+    // debug
     console.log('URL ', url);
     $.getJSON(url, function (data) {
+      // debug
       console.log('data w', data);
-      WeatherAPI.processData(data);
+      localMethods.processData(data);
+      // done processing. Unset the busy flag.
+      WeatherAPI.data.busy = false;
     });
   },
-  processData: function(data) {
-    // display weather data received from api.
+  onUnitsCheckClick(e) {
+    // unit change event handler
+    e.stopPropagation();
+    // check if api is busy (don't let user to change unit while api is busy.)
+    if (WeatherAPI.data.busy) {
+      e.preventDefault();
+      // ignore checkbox selection.
+      $(this).prop('checked', !$(this).is(':checked'));
+      return false
+    }
+    if ($(this).is(':checked')) {
+      // celsius
+      Weather.data.unit = 'celsius';
+    }
+    else {
+      Weather.data.unit = 'fahrenheit';
+    }
 
-    WeatherAPI.setWeatherIcon(data.weather[0].icon);
-    WeatherAPI.setWeatherStatus(data.weather[0].description);
-  },
-  setWeatherIcon: function(icon) {
-    // Weather icon
-    var $weatherIcon = $('#weather-icon'); // jquery object
-    var iconUrlBase = 'http://openweathermap.org/img/w/';
-    // api data
-    var iconSrc = iconUrlBase + icon + '.png';
-    // set icon
-    $weatherIcon.fadeOut('fast', function () {
-        $weatherIcon.attr('src', iconSrc);
-        $weatherIcon.fadeIn('fast');
-    });
-  },
-  setWeatherStatus: function(status) {
-    // set status string
-    var $weatherStatus = $('#weather-status');
-    $weatherStatus.html(status);
   }
 };
 

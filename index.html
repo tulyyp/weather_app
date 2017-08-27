@@ -19,11 +19,14 @@
   <section class="header">
     <label onclick="" class="toggle candy blue">
        <input id="units_check" type="checkbox" checked="checked">
-       <p><span id="celsius">  °C</span><span id="fahrenheit">°F</span></p><a class="slide-button"></a><a class="slide-button"></a>
+       <p>
+        <span id="celsius">  °C</span><span id="fahrenheit">°F</span>
+      </p>
+       <a class="slide-button"></a>
+       <a class="slide-button"></a>
     </label>
   </section>
 </div>
-<h1>Mi-Weather</h1>
 <article class="widget-wrapper">
   <section>
     <img src="http://openweathermap.org/img/w/01d.png" id="weather-icon" />
@@ -32,12 +35,16 @@
       Temperature:
       <span class="large-temperature"><span></span>°</span>
       <span class="temperature-label">C</span>
+
+      <br>
       Max-Min:
       <span class="temperature-min-max">
-        <span class='temperature-value'></span>
-        °<span class="temperature-label">C</span>
+        <span class='temperature-value'><span></span>°</span>
+        <span class="temperature-label"> C</span>
       </span>
     </div>
+
+    <div id="announcements" style="display:none;"><!-- Announcements received from server via sockets --></div>
   </section>
 
 

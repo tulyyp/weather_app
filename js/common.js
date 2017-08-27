@@ -43,9 +43,26 @@ var SocketsClass = {
       SocketsClass.data.connected = true;
     });
     // other events. Not used for this project
+    SocketsClass.data.socket.on('status', function (data) {
+      console.log('Server Status Announcement: ', data.message);
+    });
     SocketsClass.data.socket.on('announcement', function (data) {
       console.log('Server Announcement: ', data.message);
+      // timetstamp
+      var today = new Date();
+      var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+      var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      var dateTime = date + ' ' + time;
+      var $announcements = $('#announcements');
+      $announcements.show();
+      // show if hidden
+      var text = data.message + '(' + dateTime + ')';
+      var $tmpDom = $('<p/>').html(text);
+      // prepend the message
+      $announcements.prepend($tmpDom);
+      $tmpDom.show('slow');
     });
+
     SocketsClass.data.socket.on('reconnect', function () {
     });
     SocketsClass.data.socket.on('reconnecting', function () {
@@ -88,6 +105,11 @@ var GeoOperationAPI = {
 
       // we have geo coord. call weather api
       WeatherAPI.init();
+
+      if (GeoOperationAPI.data.countryCode && GeoOperationAPI.data.city) {
+        // Join server socket room for the city/country
+        SocketsClass.data.socket.emit('join', GeoOperationAPI.data.city + '-' + GeoOperationAPI.data.countryCode);
+      }
     });
 
   }
@@ -143,7 +165,7 @@ var WeatherAPI = {
       },
       setTempreture: function(values) {
         $('#temperature .large-temperature span').html(values.temp);
-        $('#temperature .temperature-min-max .temperature-value').html(values.temp_min + '~' + values.temp_max);
+        $('#temperature .temperature-min-max .temperature-value span').html(values.temp_min + '~' + values.temp_max);
       },
       setWeatherIcon: function(icon) {
         // Weather icon

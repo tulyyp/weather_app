@@ -12,7 +12,7 @@ Basic html for displaying
 ## Javascript
 
 ### SocketsClass
-Connects remote server running node server. Listens for the broadcasts from (polling, websocket)
+Connect to remote server running node server. Listens for the broadcasts(polling, websocket).
 - Subscribes to common announcement and location announcement rooms.
 ### GeoOperationAPI
 Get user's geo position from remote API.

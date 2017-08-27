@@ -162,6 +162,7 @@ var WeatherAPI = {
         localMethods.setWeatherIcon(data.weather[0].icon);
         localMethods.setWeatherStatus(data.weather[0].description);
         localMethods.setTempreture(data.main);
+        localMethods.sunriseSunsetTimes(data.sys)
       },
       setTempreture: function(values) {
         $('#temperature .large-temperature span').html(values.temp);
@@ -183,9 +184,14 @@ var WeatherAPI = {
         // set status string
         var $weatherStatus = $('#weather-status');
         $weatherStatus.html(status);
+      },
+      sunriseSunsetTimes: function(sys) {
+        var sunrise = new Date(sys.sunrise * 1000);
+        var sunset = new Date(sys.sunset * 1000);
+        $('#sunrise').html(sunrise);
+        $('#sunset').html(sunset);
       }
     };
-
     // set busy flag
     WeatherAPI.data.busy = true;
     var url = localMethods.generateUrl();

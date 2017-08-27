@@ -100,7 +100,199 @@ input[type=checkbox], input[type=radio] {
 }
 
 /* Widget */
-#weather-status
-{
+#weather-status {
     text-transform:capitalize;
+}
+
+#temperature .large-temperature {
+		font-size: 35px;
+    color: #1f384d;
+    font-family: roboto,sans-serif;
+}
+#temperature .temperature-min-max .temperature-value{
+		font-size: 20px;
+    color: #1f384d;
+    font-family: roboto,sans-serif;
+}
+
+#temperature .temperature-label {
+    font-size: 21px;
+    left: -7px;
+    color: #999;
+    position: relative;
+    top: 0;
+}
+#temperature .realfeel
+{
+	display: block;
+  color: #999;
+  font-size: 12px;
+}
+
+/* announcements */
+#announcements {
+	height: 100px;
+	width: 400px;
+	overflow-y: scroll;
+	border: 1px solid #ccc;
+}
+
+/* UV INDEX */
+*, :after, :before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.uv_index.side_item {
+	width: 400px;
+	float: right;
+}
+.uv_index {
+    border: 2px solid #e8e8e8;
+    padding: 10px;
+}
+.side_item {
+    display: block;
+    position: relative;
+}
+.side_item, .side_title, .tab_title {
+    margin-bottom: 20px;
+}
+.side_title {
+    font-size: 36px;
+    line-height: 30px;
+    font-weight: 700;
+}
+
+.uv_index_color {
+    display: block;
+    text-align: center;
+}
+
+.uv_index_color .inner {
+    display: inline-block;
+    position: relative;
+}
+.uv_index_color .uv_color {
+    display: block;
+    position: relative;
+    width: 22px;
+    height: 22px;
+}
+.uv_index_color .uv_color {
+    display: block;
+    position: relative;
+    width: 22px;
+    height: 22px;
+}
+.uv_index_color .color_item {
+    display: inline-block;
+    float: left;
+}
+.uv_index_color .color_item:first-child .uv_color_wrap {
+    border-left: 3px solid #e8e8e8;
+}
+.uv_index_color .uv_color_wrap {
+    border-left: 2px solid #e8e8e8;
+    border-top: 3px solid #e8e8e8;
+    border-bottom: 3px solid #e8e8e8;
+}
+.uv_index_color .color_item .count {
+    font-size: 14px;
+    line-height: 18px;
+}
+.uv_index .uv_days_box {
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 9px;
+}
+
+.uv_days_box .uv_box_row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.uv_days_box .uv_box_row.uv_number {
+    margin-top: 12px;
+}
+
+.uv_days_box .uv_box_row .uv_box_item {
+    flex: 0 0 20%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+.red {
+    color: #943e33
+}
+.color_blue_lg {
+    background: #e4ffe3
+}
+.color_blue {
+    background: #d8f4ff
+}
+.color_blue_dk {
+    background: #b7e2f3
+}
+.color_green_lg {
+    background: #d0ffb1
+}
+.color_green {
+    background: #c4ff5d
+}
+.color_green_dk {
+    background: #b7e233
+}
+.color_green_ex {
+    background: #9fc920
+}
+.color_grey_lg {
+    background: #f6f6f6
+}
+.color_grey {
+    background: #e8e8e8
+}
+.color_grey_dk {
+    background: #cecece
+}
+.color_grey_ex {
+    background: #8b8b8b
+}
+.bg_grey_lg {
+    background: #fbfbfb
+}
+.uv_color_1 {
+    background: #4b9100
+}
+.uv_color_2 {
+    background: #9fc920
+}
+.uv_color_3 {
+    background: #e4f364
+}
+.uv_color_4 {
+    background: #fffb99
+}
+.uv_color_5 {
+    background: #ff0
+}
+.uv_color_6 {
+    background: #ffd324
+}
+.uv_color_7 {
+    background: #f8b03f
+}
+.uv_color_8 {
+    background: #f24841
+}
+.uv_color_9 {
+    background: #c7121f
+}
+.uv_color_10 {
+    background: #c11185
+}
+.uv_color_11 {
+    background: #4b2b51
 }
